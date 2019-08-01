@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2018120300;
+$plugin->version   = 2019073100; /* SNOMED revised pointer image*/
 $plugin->requires  = 2018112800;
 
 $plugin->component = 'qtype_ddmarker';
