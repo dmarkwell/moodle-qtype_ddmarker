@@ -15,17 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Admin settings for qtype_ddmarker.
+ * Privacy Subsystem implementation for qtype_ddmarker.
  *
  * @package    qtype_ddmarker
- * @copyright  2012 The Open University
+ * @copyright  2018 Andrew Nicols <andrew@nicols.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace qtype_ddmarker\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
-$settings = new admin_externalpage('qtypeddmarkerfromimagetarget',
-        get_string('imagetargetconverter', 'qtype_ddmarker'),
-        new moodle_url('/question/type/ddmarker/imagetargetconverter.php'),
-        'moodle/question:config');
+/**
+ * Privacy Subsystem for qtype_ddmarker implementing null_provider.
+ *
+ * @copyright  2018 Andrew Nicols <andrew@nicols.co.uk>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}

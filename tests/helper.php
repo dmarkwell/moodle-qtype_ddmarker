@@ -17,11 +17,10 @@
 /**
  * Test helpers for the drag-and-drop markers question type.
  *
- * @package    qtype
- * @subpackage ddmarker
- * @copyright  2012 The Open University
- * @author     Jamie Pratt <me@jamiep.org>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_ddmarker
+ * @copyright 2012 The Open University
+ * @author    Jamie Pratt <me@jamiep.org>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
@@ -36,7 +35,7 @@ defined('MOODLE_INTERNAL') || die();
  */
 class qtype_ddmarker_test_helper extends question_test_helper {
     public function get_test_questions() {
-        return array('fox', 'maths', 'mkmap');
+        return array('fox', 'maths', 'mkmap', 'zerodrag');
     }
 
     /**
@@ -152,12 +151,14 @@ class qtype_ddmarker_test_helper extends question_test_helper {
 
         $fromform->name = 'Milton Keynes landmarks';
         $fromform->questiontext = array(
-            'text' => 'Please place the markers on the map of Milton Keynes and be aware that there is more than one railway station.',
+            'text' => 'Please place the markers on the map of Milton Keynes and be aware that '.
+                      'there is more than one railway station.',
             'format' => FORMAT_HTML,
         );
         $fromform->defaultmark = 1;
         $fromform->generalfeedback = array(
-            'text' => 'The Open University is at the junction of Brickhill Street and Groveway. There are three railway stations, Wolverton, Milton Keynes Central and Bletchley.',
+            'text' => 'The Open University is at the junction of Brickhill Street and Groveway. '.
+                      'There are three railway stations, Wolverton, Milton Keynes Central and Bletchley.',
             'format' => FORMAT_HTML,
         );
         $fromform->bgimage = $bgdraftitemid;
@@ -169,15 +170,15 @@ class qtype_ddmarker_test_helper extends question_test_helper {
         );
 
         $fromform->drops = array(
-            array('shape' => 'Circle', 'coords' => '322,213;10', 'choice' => 1),
-            array('shape' => 'Circle', 'coords' => '144,84;10', 'choice' => 2),
-            array('shape' => 'Circle', 'coords' => '195,180;10', 'choice' => 2),
-            array('shape' => 'Circle', 'coords' => '267,302;10', 'choice' => 2),
+            array('shape' => 'circle', 'coords' => '322,213;10', 'choice' => 1),
+            array('shape' => 'circle', 'coords' => '144,84;10', 'choice' => 2),
+            array('shape' => 'circle', 'coords' => '195,180;10', 'choice' => 2),
+            array('shape' => 'circle', 'coords' => '267,302;10', 'choice' => 2),
         );
 
         test_question_maker::set_standard_combined_feedback_form_data($fromform);
 
-        $fromform->penalty ='0.3333333';
+        $fromform->penalty = '0.3333333';
         $fromform->hint = array(
             array(
                 'text' => 'You are trying to place four markers on the map.',
@@ -185,6 +186,71 @@ class qtype_ddmarker_test_helper extends question_test_helper {
             ),
             array(
                 'text' => 'You are trying to mark three railway stations.',
+                'format' => FORMAT_HTML,
+            ),
+        );
+        $fromform->hintshownumcorrect = array(1, 1);
+        $fromform->hintclearwrong = array(0, 1);
+        $fromform->hintoptions = array(0, 1);
+
+        return $fromform;
+    }
+
+    /**
+     * Return the test data needed by the question generator (the data that
+     * would come from saving the editing form).
+     * @return stdClass date to create a ddmarkers question where one of the drag items has text '0'.
+     */
+    public function get_ddmarker_question_form_data_zerodrag() {
+        global $CFG, $USER;
+        $fromform = new stdClass();
+
+        $bgdraftitemid = 0;
+        file_prepare_draft_area($bgdraftitemid, null, null, null, null);
+        $fs = get_file_storage();
+        $filerecord = new stdClass();
+        $filerecord->contextid = context_user::instance($USER->id)->id;
+        $filerecord->component = 'user';
+        $filerecord->filearea = 'draft';
+        $filerecord->itemid = $bgdraftitemid;
+        $filerecord->filepath = '/';
+        $filerecord->filename = 'mkmap.png';
+        $fs->create_file_from_pathname($filerecord, $CFG->dirroot .
+                '/question/type/ddmarker/tests/fixtures/mkmap.png');
+
+        $fromform->name = 'Drag digits';
+        $fromform->questiontext = array(
+            'text' => 'Put 0 in the left of the image, and 1 in the right.',
+            'format' => FORMAT_HTML,
+        );
+        $fromform->defaultmark = 2;
+        $fromform->generalfeedback = array(
+            'text' => '',
+            'format' => FORMAT_HTML,
+        );
+        $fromform->bgimage = $bgdraftitemid;
+        $fromform->shuffleanswers = 0;
+
+        $fromform->drags = array(
+            array('label' => '0', 'noofdrags' => 1),
+            array('label' => '1', 'noofdrags' => 1),
+        );
+
+        $fromform->drops = array(
+            array('shape' => 'Rectangle', 'coords' => '0,0;272,389', 'choice' => 1),
+            array('shape' => 'Rectangle', 'coords' => '272,0;272,389', 'choice' => 2),
+        );
+
+        test_question_maker::set_standard_combined_feedback_form_data($fromform);
+
+        $fromform->penalty = '0.3333333';
+        $fromform->hint = array(
+            array(
+                'text' => 'Hint 1.',
+                'format' => FORMAT_HTML,
+            ),
+            array(
+                'text' => 'Hint 2.',
                 'format' => FORMAT_HTML,
             ),
         );

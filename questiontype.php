@@ -17,11 +17,10 @@
 /**
  * Question type class for the drag-and-drop images onto images question type.
  *
- * @package    qtype
- * @subpackage ddmarker
- * @copyright  2012 The Open University
- * @author     Jamie Pratt <me@jamiep.org>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   qtype_ddmarker
+ * @copyright 2012 The Open University
+ * @author    Jamie Pratt <me@jamiep.org>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
@@ -33,6 +32,8 @@ define('QTYPE_DDMARKER_BGIMAGE_MAXWIDTH', 600);
 define('QTYPE_DDMARKER_BGIMAGE_MAXHEIGHT', 400);
 
 /**
+ * Question hint for ddmarker.
+ *
  * An extension of {@link question_hint} for questions like match and multiple
  * choice with multile answers, where there are options for whether to show the
  * number of parts right at each stage, and to reset the wrong parts.
@@ -123,7 +124,7 @@ class qtype_ddmarker extends qtype_ddtoimage_base {
                                     array('questionid' => $formdata->id),
                                     '', 'no, id');
         foreach (array_keys($formdata->drags) as $dragno) {
-            if (!empty($formdata->drags[$dragno]['label'])) {
+            if ($formdata->drags[$dragno]['label'] !== '') {
                 $drag = new stdClass();
                 $drag->questionid = $formdata->id;
                 $drag->no = $dragno + 1;
@@ -143,10 +144,9 @@ class qtype_ddmarker extends qtype_ddtoimage_base {
                 } else {
                     $drag->id = $DB->insert_record('qtype_ddmarker_drags', $drag);
                 }
-
             }
-
         }
+
         if (!empty($olddragids)) {
             list($sql, $params) = $DB->get_in_or_equal(array_values($olddragids));
             $DB->delete_records_select('qtype_ddmarker_drags', "id $sql", $params);

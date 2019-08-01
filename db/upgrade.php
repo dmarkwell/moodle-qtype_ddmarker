@@ -31,33 +31,22 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool
  */
 function xmldb_qtype_ddmarker_upgrade($oldversion) {
-    global $CFG, $DB;
+    global $CFG;
 
-    $dbman = $DB->get_manager();
-
-    // Moodle v2.3.0 release upgrade line
+    // Automatically generated Moodle v3.2.0 release upgrade line.
     // Put any upgrade step following this.
 
-    // Moodle v2.4.0 release upgrade line
+    // Automatically generated Moodle v3.3.0 release upgrade line.
     // Put any upgrade step following this.
 
-    // Moodle v2.5.0 release upgrade line
+    // Automatically generated Moodle v3.4.0 release upgrade line.
     // Put any upgrade step following this.
 
-    if ($oldversion < 2013053000) {
+    // Automatically generated Moodle v3.5.0 release upgrade line.
+    // Put any upgrade step following this.
 
-        // Define field noofdrags to be added to qtype_ddmarker_drags.
-        $table = new xmldb_table('qtype_ddmarker_drags');
-        $field = new xmldb_field('noofdrags', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '1', 'infinite');
+    // Automatically generated Moodle v3.6.0 release upgrade line.
+    // Put any upgrade step following this.
 
-        // Conditionally launch add field noofdrags.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Savepoint reached.
-        upgrade_plugin_savepoint(true, 2013053000, 'qtype', 'ddmarker');
-    }
     return true;
 }
-

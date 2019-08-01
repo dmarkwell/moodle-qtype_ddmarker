@@ -1,4 +1,4 @@
-@ou @ou_vle @qtype @qtype_ddmarker
+@qtype @qtype_ddmarker
 Feature: Test editing a drag and drop markers questions
   As a teacher
   In order to be able to update my drag and drop markers questions
@@ -21,8 +21,8 @@ Feature: Test editing a drag and drop markers questions
       | questioncategory | qtype    | name         | template |
       | Test questions   | ddmarker | Drag markers | mkmap    |
     And I log in as "teacher1"
-    And I follow "Course 1"
-    And I navigate to "Question bank" node in "Course administration"
+    And I am on "Course 1" course homepage
+    And I navigate to "Question bank" in current page administration
 
   @javascript
   Scenario: Edit a drag and drop markers question

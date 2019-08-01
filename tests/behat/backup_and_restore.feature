@@ -1,4 +1,4 @@
-@ou @ou_vle @qtype @qtype_ddmarker
+@qtype @qtype_ddmarker
 Feature: Test duplicating a quiz containing a drag and drop markers question
   As a teacher
   In order re-use my courses containing drag and drop markers questions
@@ -20,8 +20,7 @@ Feature: Test duplicating a quiz containing a drag and drop markers question
     And quiz "Test quiz" contains the following questions:
       | Drag markers | 1 |
     And I log in as "admin"
-    And I am on site homepage
-    And I follow "Course 1"
+    And I am on "Course 1" course homepage
 
   @javascript
   Scenario: Backup and restore a course containing a drag and drop markers question
@@ -29,7 +28,7 @@ Feature: Test duplicating a quiz containing a drag and drop markers question
       | Confirmation | Filename | test_backup.mbz |
     And I restore "test_backup.mbz" backup into a new course using this options:
       | Schema | Course name | Course 2 |
-    And I navigate to "Question bank" node in "Course administration"
+    And I navigate to "Question bank" in current page administration
     And I click on "Edit" "link" in the "Drag markers" "table_row"
     Then the following fields match these values:
       | Question name                       | Drag markers                                         |
